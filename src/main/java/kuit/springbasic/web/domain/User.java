@@ -1,14 +1,21 @@
 package kuit.springbasic.web.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"userId", "password"})
 public class User {
     private String userId;
     private String password;
     private String name;
     private String email;
-
-    public User() {
-
-    }
 
     public User(String userId, String password, String name, String email) {
         this.userId = userId;
@@ -20,38 +27,6 @@ public class User {
     public User(String userId, String password) {
         this.userId = userId;
         this.password = password;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void update(User updateUser) {
@@ -74,15 +49,5 @@ public class User {
 
     public boolean isSameUser(String userId, String password) {
         return userId.equals(this.userId) && matchPassword(password);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }
