@@ -1,4 +1,4 @@
-package kuit.springbasic.web.controller;
+package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

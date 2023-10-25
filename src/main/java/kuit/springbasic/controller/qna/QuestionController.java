@@ -1,4 +1,4 @@
-package kuit.springbasic.web.controller.qna;
+package kuit.springbasic.controller.qna;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -1,8 +1,8 @@
-package kuit.springbasic.web.util;
+package kuit.springbasic.util;
 
 
 import jakarta.servlet.http.HttpSession;
-import kuit.springbasic.web.domain.User;
+import kuit.springbasic.domain.User;
 
 public class UserSessionUtils {
     public static final String USER_SESSION_KEY = "user";

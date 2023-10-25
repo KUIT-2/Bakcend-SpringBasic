@@ -1,7 +1,7 @@
 package kuit.springbasic.db;
 
 
-import kuit.springbasic.web.domain.User;
+import kuit.springbasic.domain.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

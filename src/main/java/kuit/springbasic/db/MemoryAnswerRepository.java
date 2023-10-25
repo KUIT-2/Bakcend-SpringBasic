@@ -1,8 +1,7 @@
 package kuit.springbasic.db;
 
 
-import kuit.springbasic.web.domain.Answer;
-import lombok.RequiredArgsConstructor;
+import kuit.springbasic.domain.Answer;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;

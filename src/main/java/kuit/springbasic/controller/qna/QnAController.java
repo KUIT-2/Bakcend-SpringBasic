@@ -1,4 +1,4 @@
-package kuit.springbasic.web.controller.qna;
+package kuit.springbasic.controller.qna;
 
 import kuit.springbasic.db.MemoryAnswerRepository;
 import kuit.springbasic.db.MemoryQuestionRepository;

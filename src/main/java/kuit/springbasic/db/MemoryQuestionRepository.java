@@ -1,7 +1,7 @@
 package kuit.springbasic.db;
 
 
-import kuit.springbasic.web.domain.Question;
+import kuit.springbasic.domain.Question;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

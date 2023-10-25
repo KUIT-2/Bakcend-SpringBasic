@@ -1,9 +1,9 @@
-package kuit.springbasic.web.controller;
+package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kuit.springbasic.db.MemoryQuestionRepository;
-import kuit.springbasic.web.domain.Question;
+import kuit.springbasic.domain.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package kuit.springbasic.web.controller.qna;
+package kuit.springbasic.controller.qna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
