@@ -3,9 +3,9 @@ package kuit.springbasic.controller.qna;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kuit.springbasic.db.MemoryQuestionRepository;
-import kuit.springbasic.web.domain.Question;
-import kuit.springbasic.web.domain.User;
-import kuit.springbasic.web.util.UserSessionUtils;
+import kuit.springbasic.domain.Question;
+import kuit.springbasic.domain.User;
+import kuit.springbasic.util.UserSessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import static kuit.springbasic.web.util.UserSessionUtils.USER_SESSION_KEY;
 
 @Slf4j
 @Controller
@@ -92,7 +91,7 @@ QuestionController {
 
     @RequestMapping("/updateForm")
     public String showUpdateQuestionFormV2(@RequestParam int questionId,
-                                           @SessionAttribute(name = USER_SESSION_KEY, required = false) User userFromSession,
+                                           @SessionAttribute(name = "user", required = false) User userFromSession,
                                            Model model) throws SQLException {
         log.info("QuestionController.showUpdateQuestionFormV2");
 
@@ -114,7 +113,7 @@ QuestionController {
      */
     @RequestMapping("/update")
     public String updateQuestion(@RequestParam int questionId, @RequestParam String title, @RequestParam String contents,
-                                 @SessionAttribute(name = USER_SESSION_KEY, required = false) User userFromSession) throws SQLException {
+                                 @SessionAttribute(name = "user", required = false) User userFromSession) throws SQLException {
         log.info("QuestionController.updateQuestion");
 
         if (userFromSession == null) {

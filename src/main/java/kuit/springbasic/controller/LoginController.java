@@ -3,7 +3,7 @@ package kuit.springbasic.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kuit.springbasic.db.MemoryUserRepository;
-import kuit.springbasic.web.domain.User;
+import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 
-import static kuit.springbasic.web.util.UserSessionUtils.USER_SESSION_KEY;
 
 
 @Slf4j
@@ -58,7 +57,7 @@ public class LoginController {
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
-            session.setAttribute(USER_SESSION_KEY, user);
+            session.setAttribute("user", user);
             return "redirect:/";
         }
         return "redirect:/user/loginFailed";
@@ -74,7 +73,7 @@ public class LoginController {
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
-            session.setAttribute(USER_SESSION_KEY, user);
+            session.setAttribute("user", user);
             return "redirect:/";
         }
         return "redirect:/user/loginFailed";
@@ -90,7 +89,7 @@ public class LoginController {
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
-            session.setAttribute(USER_SESSION_KEY, user);
+            session.setAttribute("user", user);
             return "redirect:/";
         }
         return "redirect:/user/loginFailed";
@@ -105,7 +104,7 @@ public class LoginController {
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
-            session.setAttribute(USER_SESSION_KEY, user);
+            session.setAttribute("user", user);
             return "redirect:/";
         }
         return "redirect:/user/loginFailed";
