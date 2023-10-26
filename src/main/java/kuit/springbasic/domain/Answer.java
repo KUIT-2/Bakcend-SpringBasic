@@ -3,6 +3,7 @@ package kuit.springbasic.domain;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Answer {
     private int answerId;
@@ -68,6 +69,19 @@ public class Answer {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Answer answer = (Answer) o;
+        return getQuestionId() == answer.getQuestionId() && Objects.equals(getWriter(), answer.getWriter()) && Objects.equals(getContents(), answer.getContents()) && Objects.equals(getCreatedDate(), answer.getCreatedDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionId(), getWriter(), getContents(), getCreatedDate());
     }
 
     @Override
