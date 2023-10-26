@@ -3,16 +3,18 @@
 
 <!doctype html>
 <html lang="ko">
-<%@ include file="/include/header.jspf" %>
+<%@ include file="/include/v2/headerV2.jspf" %>
 <body>
-<%@ include file="/include/navigation.jspf" %>
+<%@ include file="/include/v2/navigationV2.jspf" %>
 
 <div class="container" id="main">
     <header class="qna-header">
         <h2 class="qna-title">${question.title}</h2>
     </header>
+
     <div class="content-main">
         <article class="article">
+
             <div class="article-header">
                 <div class="article-header-thumb">
                     <img src="/img/picture.jpeg" class="article-author-thumb" alt="">
@@ -25,20 +27,21 @@
                     </a>
                 </div>
             </div>
+
             <div class="article-doc">
                 ${question.contents}
             </div>
+
             <div class="article-util">
                 <ul class="article-util-list">
-
                     <c:if test="${not empty sessionScope.user}">
                         <li>
                             <a class="link-modify-article"
-                               href="/qna/updateForm?questionId=${question.questionId}">수정</a>
+                               href="/v2/qna/updateForm?questionId=${question.questionId}">수정</a>
                         </li>
                     </c:if>
                     <li>
-                        <a class="link-modify-article" href="/qna/delete?questionId=${question.questionId}">삭제</a>
+                        <a class="link-modify-article" href="/v2/qna/delete?questionId=${question.questionId}">삭제</a>
                     </li>
                     <li>
                         <a class="link-modify-article" href="/">목록</a>
@@ -47,13 +50,11 @@
             </div>
         </article>
 
-
         <div class="qna-comment">
             <div class="qna-comment-kuit">
                 <p class="qna-comment-count"><strong>${question.countOfAnswer}</strong>개의 의견</p>
-
                 <div class="qna-comment-kuit-articles">
-                    <div class="qna-comment-kuit-article-comments">
+
                     <c:forEach items="${answers}" var="each">
                         <article class="article">
                             <div class="article-header">
@@ -63,20 +64,23 @@
                                 </div>
                                 <div class="article-header-text">
                                         ${each.writer}
-                                    <div class="article-header-time">${each.createdDate}</div>
+                                    <div class="article-header-time"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+                                                                                     value="${each.createdDate}"/></div>
                                 </div>
                             </div>
+
                             <div class="article-doc comment-doc">
                                 <p>${each.contents}</p>
                             </div>
+
                             <div class="article-util">
                                 <ul class="article-util-list">
                                     <li>
                                         <a class="link-modify-article"
-                                           href="/api/qna/updateAnswer?answerId=${each.answerId}">수정</a>
+                                           href="/v2/api/qna/updateAnswer?answerId=${each.answerId}">수정</a>
                                     </li>
                                     <li>
-                                        <form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+                                        <form class="form-delete" action="/v2/api/qna/deleteAnswer" method="POST">
                                             <input type="hidden" name="answerId" value="${each.answerId}"/>
                                             <button type="submit" class="link-delete-article">삭제</button>
                                         </form>
@@ -85,9 +89,8 @@
                             </div>
                         </article>
                     </c:forEach>
-                    </div>
-                    <div class="answerWrite">
 
+                    <div class="answerWrite">
                         <form class="submit-write">
                             <input type="hidden" name="questionId" value="${question.questionId}">
                             <div class="form-group col-lg-4" style="padding-top:10px;">
@@ -100,7 +103,6 @@
                             <div class="clearfix"/>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -115,21 +117,22 @@
             <div class="article-header-thumb">
                 <img src="/img/picture.jpeg" class="article-author-thumb" alt="">
             </div>
-            <div class="article-header-text">
-                {0}
+            <div class="article-header-text">{0}
                 <div class="article-header-time">{1}</div>
             </div>
         </div>
+
         <div class="article-doc comment-doc">
             {2}
         </div>
+
         <div class="article-util">
             <ul class="article-util-list">
                 <li>
-                    <a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
+                    <a class="link-modify-article" href="/v2/api/qna/updateAnswer/{3}">수정</a>
                 </li>
                 <li>
-                    <form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+                    <form class="form-delete" action="/v2/api/qna/deleteAnswer" method="POST">
                         <input type="hidden" name="answerId" value="{4}"/>
                         <button type="submit" class="link-delete-article">삭제</button>
                     </form>
@@ -138,8 +141,9 @@
         </div>
     </article>
 </script>
+
 <script src="/js/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/script2.js"></script>
+<script src="../../js/v2/scriptsV2.js"></script>
 </body>
 </html>
