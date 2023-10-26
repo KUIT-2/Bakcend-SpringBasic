@@ -8,15 +8,21 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Repository
 public class MemoryUserRepository {
     private Map<String, User> users = new HashMap<>();
     private static MemoryUserRepository memoryUserRepository;
 
-    public MemoryUserRepository() {
+    private MemoryUserRepository() {
         insert(new User("kuit","kuit","쿠잇","kuit@kuit.com"));
     }
 
+    public static MemoryUserRepository getInstance() {
+        if (memoryUserRepository == null) {
+            memoryUserRepository = new MemoryUserRepository();
+            return memoryUserRepository;
+        }
+        return memoryUserRepository;
+    }
 
     public void insert(User user) {
         users.put(user.getUserId(), user);
