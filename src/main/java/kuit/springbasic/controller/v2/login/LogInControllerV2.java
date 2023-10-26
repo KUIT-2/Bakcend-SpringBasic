@@ -15,7 +15,7 @@ public class LogInControllerV2 implements ControllerV2 {
 
     private HttpSession session;
 
-    private final MemoryUserRepository userDao = MemoryUserRepository.getInstance();
+    private final MemoryUserRepository memoryUserRepository = MemoryUserRepository.getInstance();
 
     @Override
     public void setSession(HttpSession session) {
@@ -30,7 +30,7 @@ public class LogInControllerV2 implements ControllerV2 {
         String password = params.get("password");
 
         User loggedInUser = new User(userId, password);
-        User user = userDao.findByUserId(userId);
+        User user = memoryUserRepository.findByUserId(userId);
 
         if (user != null && user.getUserId().equals(loggedInUser.getUserId()) && user.getPassword().equals(loggedInUser.getPassword())) {
             session.setAttribute("user", user);
