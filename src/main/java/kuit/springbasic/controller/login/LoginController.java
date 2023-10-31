@@ -90,6 +90,8 @@ public class LoginController {
     @PostMapping("/login")
     public String loginV4(@ModelAttribute User loggedInUser, HttpServletRequest request) {
 
+        log.info("LoginController.loginV4");
+
         User user = memoryUserRepository.findByUserId(loggedInUser.getUserId());
 
         if (user != null && user.getUserId().equals(loggedInUser.getUserId()) && user.getPassword()
@@ -102,6 +104,13 @@ public class LoginController {
     }
 
 //    TODO: logout
+    @RequestMapping("/logout")
+    public String logOut(HttpServletRequest request) {
 
+        log.info("LoginController.logOut");
 
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
 }
