@@ -7,11 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ForwardController {
 
-    @RequestMapping("/user/form")
-    public String singupForm() {
-        return "/user/form";
-    }
-
     @RequestMapping("/user/loginForm")
     public String loginForm() {
         return "/user/login";

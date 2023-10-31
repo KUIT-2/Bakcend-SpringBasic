@@ -39,7 +39,7 @@ public class AnswerController {
 
         Answer answer = new Answer(memoryAnswerRepository.getPK(), questionId, writer, contents,
                 Date.valueOf(LocalDate.now()));
-        memoryAnswerRepository.insert(answer);
+        Answer savedAnswer = memoryAnswerRepository.insert(answer);
 
         Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
@@ -47,8 +47,9 @@ public class AnswerController {
 
         //JsonView render와 동일. print와 write의 차이가 있다
         Map<String, Object> model = new HashMap<>();
-        model.put("answer", answer);
-        response.setContentType("application/json;charset=UTF-8");
+        model.put("answer", savedAnswer);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         response.getWriter().write(new ObjectMapper().writeValueAsString(model));
     }
 

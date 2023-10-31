@@ -1,6 +1,7 @@
 package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kuit.springbasic.db.MemoryUserRepository;
 import kuit.springbasic.domain.User;
 import kuit.springbasic.util.UserSessionUtils;
@@ -66,11 +67,13 @@ public class UserController {
      * TODO: showUserUpdateForm
      */
     @RequestMapping("/updateForm")
-    public ModelAndView updateUserForm(@ModelAttribute User loginUser) {
+    public ModelAndView updateUserForm(HttpServletRequest request) {
         log.info("User.updateUserForm");
-        User user = memoryUserRepository.findByUserId(loginUser.getUserId());
-        if (user != null) {
-            return new ModelAndView("/user/updateForm").addObject("user", user);
+        HttpSession session = request.getSession();
+        String userId = request.getParameter("userId");
+        User updateUser = memoryUserRepository.findByUserId(userId);
+        if (updateUser != null && session.getAttribute("user").equals(updateUser)) {
+            return new ModelAndView("/user/updateForm").addObject("user", updateUser);
         }
         return new ModelAndView("redirect:/");
     }
