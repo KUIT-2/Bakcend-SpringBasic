@@ -24,7 +24,8 @@ public class UserController {
      * TODO: showUserForm
      */
     @RequestMapping("/form")
-    public String singupForm() {
+    public String signupForm() {
+        log.info("User.signupForm");
         return "/user/form";
     }
 
@@ -37,6 +38,7 @@ public class UserController {
     @RequestMapping("/signup")
     public String createUserV1(@RequestParam String userId, @RequestParam String password,
             @RequestParam String name, @RequestParam String email) {
+        log.info("User.createUserV1");
         User user = new User(userId, password, name, email);
         memoryUserRepository.insert(user);
         return "redirect:/user/list";
@@ -52,6 +54,7 @@ public class UserController {
      */
     @RequestMapping("/list")
     public ModelAndView userList(HttpServletRequest request) {
+        log.info("User.userList");
         if (UserSessionUtils.isLoggedIn(request.getSession())) {
             return new ModelAndView("/user/list").addObject("users",
                     memoryUserRepository.findAll());
@@ -64,7 +67,7 @@ public class UserController {
      */
     @RequestMapping("/updateForm")
     public ModelAndView updateUserForm(@ModelAttribute User loginUser) {
-
+        log.info("User.updateUserForm");
         User user = memoryUserRepository.findByUserId(loginUser.getUserId());
         if (user != null) {
             return new ModelAndView("/user/updateForm").addObject("user", user);
@@ -87,6 +90,7 @@ public class UserController {
 
     @RequestMapping("/update")
     public String updateUserV2(@ModelAttribute User presentUser) {
+        log.info("User.updateUserV2");
         memoryUserRepository.findByUserId(presentUser.getUserId()).update(presentUser);
         return "redirect:/user/list";
     }

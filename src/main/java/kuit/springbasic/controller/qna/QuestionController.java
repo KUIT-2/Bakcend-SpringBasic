@@ -33,6 +33,7 @@ public class QuestionController {
      */
     @RequestMapping("/qna/form")
     public String showQuestionForm(HttpServletRequest request) {
+        log.info("QuestionController.showQuestionForm");
         HttpSession session = request.getSession();
         if (UserSessionUtils.isLoggedIn(session)) {
             return "/qna/form";
@@ -57,6 +58,7 @@ public class QuestionController {
 
     @RequestMapping("/qna/create")
     public String createQuestionV2(@ModelAttribute Question question1) {
+        log.info("QuestionController.createQuestionV2");
         memoryQuestionRepository.insert(question1);
         return "redirect:/";
     }
@@ -70,6 +72,7 @@ public class QuestionController {
     @RequestMapping("/qna/updateForm")
     public String showUpdateQuestionFormV1(@RequestParam int questionId, HttpServletRequest request,
             Model model) {
+        log.info("QuestionController.showUpdateQuestionFormV1");
         HttpSession session = request.getSession();
         if (!UserSessionUtils.isLoggedIn(session)) {
             return "redirect:/user/login";
@@ -105,6 +108,7 @@ public class QuestionController {
 
     @RequestMapping("/qna/update")
     public String updateQuestion(HttpServletRequest request, @RequestParam int questionId) {
+        log.info("QuestionController.updateQuestion");
         HttpSession session = request.getSession();
         if (!UserSessionUtils.isLoggedIn(session)) {
             return "redirect:/user/login";

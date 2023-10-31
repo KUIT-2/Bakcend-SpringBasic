@@ -25,6 +25,8 @@ public class QnAController {
 
     @RequestMapping("/qna/show")
     public ModelAndView showQnA(HttpServletRequest request, Model model) {
+         log.info("QnAController.showQnA");
+
         String questionId = request.getParameter("questionId");
         Question question = memoryQuestionRepository.findByQuestionId(Integer.parseInt(questionId));
         List<Answer> answers = memoryAnswerRepository.findAllByQuestionId(Integer.parseInt(questionId));
