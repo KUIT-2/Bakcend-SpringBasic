@@ -1,8 +1,12 @@
 package kuit.springbasic.controller.qna;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import kuit.springbasic.db.MemoryAnswerRepository;
 import kuit.springbasic.db.MemoryQuestionRepository;
 import kuit.springbasic.domain.Answer;
@@ -27,25 +31,29 @@ public class AnswerController {
 
     //     TODO: addAnswer - @PostMapping
 //     addAnswerV0 : @RequestParam, HttpServletResponse
-    //여기서 response를 어떻게 사용해야할지 잘 모르겠습니다!
+    //여기서 response를 어떻게 사용해야할지 잘 모르겠습니다! -> 5주차의 JsonView의 render를 수행하면 되는구나..
     @PostMapping("/api/qna/addAnswer")
-    public ModelAndView addAnswerV0(@RequestParam int questionId, @RequestParam String writer,
-            @RequestParam String contents, HttpServletResponse response) {
-        Answer answer = new Answer(memoryAnswerRepository.getPK(), questionId, writer, contents, Date.valueOf(LocalDate.now()));
+    public void addAnswerV0(@RequestParam int questionId, @RequestParam String writer,
+            @RequestParam String contents, HttpServletResponse response) throws IOException {
+        log.info("AnswerController.addAnswerV0");
+
+        Answer answer = new Answer(memoryAnswerRepository.getPK(), questionId, writer, contents,
+                Date.valueOf(LocalDate.now()));
         memoryAnswerRepository.insert(answer);
 
         Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
         memoryQuestionRepository.updateCountOfAnswer(question);
 
+        //JsonView render와 동일. print와 write의 차이가 있다
+        Map<String, Object> model = new HashMap<>();
+        model.put("answer", answer);
         response.setContentType("application/json;charset=UTF-8");
-
-        return new ModelAndView().addObject("answer", answer);
+        response.getWriter().write(new ObjectMapper().writeValueAsString(model));
     }
 
 //     addAnswerV1 : @RequestParam, Model
-
-    public ModelAndView addAnswerV1(@RequestParam int questionId, @RequestParam String writer,
+    public String addAnswerV1(@RequestParam int questionId, @RequestParam String writer,
             @RequestParam String contents, Model model) {
         Answer answer = new Answer(memoryAnswerRepository.getPK(), questionId, writer, contents, Date.valueOf(LocalDate.now()));
         memoryAnswerRepository.insert(answer);
@@ -54,7 +62,8 @@ public class AnswerController {
         question.increaseCountOfAnswer();
         memoryQuestionRepository.updateCountOfAnswer(question);
         model.addAttribute("answer", answer);
-        return new ModelAndView();
+//        return new ModelAndView();
+        return "jsonView"; //WebConfig 라는 게 있구나!
     }
 //     addAnswerV2 : @RequestParam, @ResponseBody
     @ResponseBody
