@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +24,7 @@ public class QnAController {
     private final MemoryAnswerRepository memoryAnswerRepository;
 //     TODO: showQnA
 
-    @RequestMapping("/qna/show")
+    @GetMapping("/qna/show")
     public ModelAndView showQnA(HttpServletRequest request, Model model) {
          log.info("QnAController.showQnA");
 

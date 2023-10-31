@@ -104,7 +104,7 @@ public class LoginController {
     }
 
 //    TODO: logout
-    @RequestMapping("/logout")
+    @GetMapping("/logout")
     public String logOut(HttpServletRequest request) {
 
         log.info("LoginController.logOut");

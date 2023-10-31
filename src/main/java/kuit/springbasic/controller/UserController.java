@@ -8,7 +8,9 @@ import kuit.springbasic.util.UserSessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +26,7 @@ public class UserController {
     /**
      * TODO: showUserForm
      */
-    @RequestMapping("/form")
+    @GetMapping("/form")
     public String signupForm() {
         log.info("User.signupForm");
         return "/user/form";
@@ -36,7 +38,7 @@ public class UserController {
      * createUserV2 : @ModelAttribute
      */
 
-    @RequestMapping("/signup")
+    @PostMapping("/signup")
     public String createUserV1(@RequestParam String userId, @RequestParam String password,
             @RequestParam String name, @RequestParam String email) {
         log.info("User.createUserV1");
@@ -53,7 +55,7 @@ public class UserController {
     /**
      * TODO: showUserList
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ModelAndView userList(HttpServletRequest request) {
         log.info("User.userList");
         if (UserSessionUtils.isLoggedIn(request.getSession())) {
@@ -66,7 +68,7 @@ public class UserController {
     /**
      * TODO: showUserUpdateForm
      */
-    @RequestMapping("/updateForm")
+    @GetMapping("/updateForm")
     public ModelAndView updateUserForm(HttpServletRequest request) {
         log.info("User.updateUserForm");
         HttpSession session = request.getSession();
@@ -91,7 +93,7 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public String updateUserV2(@ModelAttribute User presentUser) {
         log.info("User.updateUserV2");
         memoryUserRepository.findByUserId(presentUser.getUserId()).update(presentUser);

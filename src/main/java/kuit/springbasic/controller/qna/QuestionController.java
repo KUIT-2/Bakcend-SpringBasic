@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/qna")
 public class QuestionController {
 
     private final MemoryQuestionRepository memoryQuestionRepository;
@@ -31,7 +34,7 @@ public class QuestionController {
     /**
      * TODO: showQuestionForm
      */
-    @RequestMapping("/qna/form")
+    @GetMapping("/form")
     public String showQuestionForm(HttpServletRequest request) {
         log.info("QuestionController.showQuestionForm");
         HttpSession session = request.getSession();
@@ -56,7 +59,7 @@ public class QuestionController {
         return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping("/qna/create")
+    @PostMapping("/create")
     public String createQuestionV2(@ModelAttribute Question question1) {
         log.info("QuestionController.createQuestionV2");
         memoryQuestionRepository.insert(question1);
@@ -69,7 +72,7 @@ public class QuestionController {
      * showUpdateQuestionFormV2 : @RequestParam, @SessionAttribute, Model
      */
 
-    @RequestMapping("/qna/updateForm")
+    @GetMapping("/updateForm")
     public String showUpdateQuestionFormV1(@RequestParam int questionId, HttpServletRequest request,
             Model model) {
         log.info("QuestionController.showUpdateQuestionFormV1");
@@ -106,7 +109,7 @@ public class QuestionController {
      * TODO: updateQuestion
      */
 
-    @RequestMapping("/qna/update")
+    @PostMapping("/update")
     public String updateQuestion(HttpServletRequest request, @RequestParam int questionId) {
         log.info("QuestionController.updateQuestion");
         HttpSession session = request.getSession();

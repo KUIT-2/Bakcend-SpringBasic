@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +26,7 @@ public class HomeController {
 
     private final MemoryQuestionRepository memoryQuestionRepository;
 
-    @RequestMapping("/homeV1")
+    @GetMapping("/homeV1")
 //    @RequestMapping("/")
     public ModelAndView showHomeV1(HttpServletRequest request, HttpServletResponse response) {
         log.info("HomeController.homeV1");
@@ -38,7 +39,7 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping("/homeV2")
+    @GetMapping("/homeV2")
 //    @RequestMapping("/")
 //    인자값을 사용하지 않으면 버려도됨!
     public ModelAndView showHomeV2() {
@@ -52,7 +53,7 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
 //    모델만 받아서 addAttribute 후 주소 String을 return해도 스프링이 알아서 해줌
     public String showHomeV3(Model model) {
         log.info("HomeController.homeV3");
