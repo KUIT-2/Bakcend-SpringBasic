@@ -14,9 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Slf4j
-@Controller
-@RequiredArgsConstructor
+@Controller //controlloer임을 명시하여 spring container에 등록.
+@RequiredArgsConstructor    //final 변수를 가진 친구를 생성자 인자로 포함하여 자동 생성
 public class HomeController {
+
+//    @Autowired // spring bean으로 등록된 친구 가져다 쓰기
+//    public HomeController(MemoryQuestionRepository memoryQuestionRepository) {
+//        this.memoryQuestionRepository = memoryQuestionRepository;
+//    }
 
     private final MemoryQuestionRepository memoryQuestionRepository;
 
@@ -35,6 +40,7 @@ public class HomeController {
 
     @RequestMapping("/homeV2")
 //    @RequestMapping("/")
+//    인자값을 사용하지 않으면 버려도됨!
     public ModelAndView showHomeV2() {
         log.info("HomeController.homeV2");
 
@@ -47,6 +53,7 @@ public class HomeController {
     }
 
     @RequestMapping("/")
+//    모델만 받아서 addAttribute 후 주소 String을 return해도 스프링이 알아서 해줌
     public String showHomeV3(Model model) {
         log.info("HomeController.homeV3");
 
