@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Repository     //spring 컨테이너에 등록. 까보면 안에 @Component가 있음
+// @repo, service, controller 등이 붙은 클래스들은 main함수 위에 붙은 springbootapplication로 인해 시작 시에 component scanning을 통해 컨테이너에 등록됨.
 public class MemoryQuestionRepository {
     private Map<String, Question> questions= new HashMap<>();
     private static int PK = 0;
