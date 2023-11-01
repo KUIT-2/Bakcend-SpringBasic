@@ -1,11 +1,27 @@
 package kuit.springbasic.controller;
 
+import kuit.springbasic.db.MemoryUserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Slf4j
+@Controller
+@RequiredArgsConstructor
 public class LoginController {
 
+    private final MemoryUserRepository memoryUserRepository;
 
     /**
      * TODO: showLoginForm
      */
+
+    @RequestMapping("/user/loginForm")
+    public String showLoginForm() {
+        log.info("LoginController.showLoginForm");
+        return "/user/login";
+    }
 
     /**
      * TODO: showLoginFailed
