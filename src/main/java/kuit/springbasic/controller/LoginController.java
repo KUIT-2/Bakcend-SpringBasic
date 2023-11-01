@@ -26,6 +26,11 @@ public class LoginController {
     /**
      * TODO: showLoginFailed
      */
+    @RequestMapping("/user/loginFailed")
+    public String showLoginFailedForm() {
+        log.info("LoginController.showLoginFailedFrom");
+        return "/user/loginFailed";
+    }
 
     /**
      * TODO: login
