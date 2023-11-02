@@ -20,12 +20,16 @@ public class Question {
     private int countOfAnswer;
 
     public Question(String writer, String title, String contents, int countOfAnswer) {
-        this.questionId = 0;
+        this.questionId = 0;                    // 생성되는 질문은 questionId를 0번으로 부여
         this.writer = writer;
         this.title = title;
         this.contents = contents;
         this.createdDate = Date.valueOf(LocalDate.now());
         this.countOfAnswer = countOfAnswer;
+    }
+
+    public Question(String writer, String title, String contents, Date date, int i) {
+
     }
 
     public void updateTitleAndContents(String title, String contents) {

@@ -26,4 +26,7 @@ public class Answer {
     }
 
 
+    public Answer(int questionId, String writer, String contents, Date date) {
+
+    }
 }

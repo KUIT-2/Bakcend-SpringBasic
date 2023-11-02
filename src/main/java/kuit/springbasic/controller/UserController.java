@@ -24,21 +24,11 @@ public class UserController {
     private final MemoryUserRepository memoryUserRepository;
 
     /**
-     * TODO: showUserForm -> ForwardController ??
+     * TODO: showUserForm
      */
     @RequestMapping("/form")
-    public String signupForm(){
+    public String form(){
         return "/user/form";
-    }
-
-    @RequestMapping("/loginForm")
-    public String loginForm(){
-        return "/user/loginForm";
-    }
-
-    @RequestMapping("/loginFailed")
-    public String loginFailed(){
-        return "/user/loginFailed";
     }
 
 
@@ -48,7 +38,7 @@ public class UserController {
      * createUserV2 : @ModelAttribute
      */
     // createUserV1 -> id, passwd, name, email 4가지 정보 필요
-    @RequestMapping("/signup1")
+    @RequestMapping("/signupv1")
     public String CreateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
         User user = new User(Id, passwd, name, email);
         memoryUserRepository.insert(user);          // user 등록
@@ -63,7 +53,7 @@ public class UserController {
     }
 
     /**
-     * TODO: showUserList -> UserListController
+     * TODO: showUserList -> ListUserController
      */
     @RequestMapping("/list")
     public ModelAndView userList(HttpServletRequest request){
@@ -74,7 +64,7 @@ public class UserController {
     }
 
     /**
-     * TODO: showUserUpdateForm -> UpdateUserFormController ??
+     * TODO: showUserUpdateForm -> UpdateUserFormController
      */
     @RequestMapping("/updateForm")
     public ModelAndView updateUserForm(@ModelAttribute User loginedUser){
@@ -92,7 +82,7 @@ public class UserController {
      * updateUserV2 : @ModelAttribute
      */
     // updateUserV1 방식 -> 위의 createUser 방식과 동일
-    @RequestMapping("/update1")
+    @RequestMapping("/updateV1")
     public String updateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
         User user = new User(Id, passwd, name, email);
         memoryUserRepository.findByUserId(Id).update(user);         // Id로 update target user 찾아서 정보 update
