@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -59,13 +60,14 @@ public class UserController {
      * TODO: showUserUpdateForm
      */
     @RequestMapping("/user/updateForm")
-    public String showUserUpdateForm(@ModelAttribute User user, HttpServletRequest request) {
+    public String showUserUpdateForm(@RequestParam String userId, HttpServletRequest request) {
         log.info("UserController.showUserUpdateForm");
-        if(user != null) {
-            request.setAttribute("user", user);
+        if(memoryUserRepository.findByUserId(userId).isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
+
+            request.setAttribute("user", memoryUserRepository.findByUserId(userId));
             return "/user/updateForm";
         }
-        return "redirect:/user/loginForm";
+        return "redirect:/user/list";
     }
 
     /**
