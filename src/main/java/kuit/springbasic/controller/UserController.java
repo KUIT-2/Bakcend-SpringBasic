@@ -83,7 +83,7 @@ public class UserController {
             return "redirect:/user/list";
         }
 
-        return "redirect:/user/update";
+        return "redirect:/user/list";
 
     }
 
