@@ -72,5 +72,16 @@ public class UserController {
      * updateUserV1 : @RequestParam
      * updateUserV2 : @ModelAttribute
      */
+    @RequestMapping("/user/update")
+    public String updateUser(@ModelAttribute User user) {
+        
+        if (user != null) {
+            memoryUserRepository.update(user);
+            return "redirect:/";
+        }
+
+        return "redirect:/user/update";
+
+    }
 
 }
