@@ -57,6 +57,15 @@ public class UserController {
     /**
      * TODO: showUserUpdateForm
      */
+    @RequestMapping("/user/updateForm")
+    public String showUserUpdateForm(@ModelAttribute User user, HttpServletRequest request) {
+        log.info("UserController.showUserUpdateForm");
+        if(user != null) {
+            request.setAttribute("user", user);
+            return "/user/updateForm";
+        }
+        return "redirect:/user/loginForm";
+    }
 
     /**
      * TODO: updateUser
