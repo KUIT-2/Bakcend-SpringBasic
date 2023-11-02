@@ -1,7 +1,9 @@
 package kuit.springbasic.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import kuit.springbasic.db.MemoryUserRepository;
 import kuit.springbasic.domain.User;
+import kuit.springbasic.util.UserSessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,16 @@ public class UserController {
     /**
      * TODO: showUserList
      */
+    @RequestMapping("/user/list")
+    public String showUserList(HttpServletRequest request) {
+        log.info("UserController.showUserList");
+        if (UserSessionUtils.isLoggedIn(request.getSession())) {
+            return "/user/list";
+        }
+
+        return "redirect:/user/loginForm";
+    }
+
 
     /**
      * TODO: showUserUpdateForm
