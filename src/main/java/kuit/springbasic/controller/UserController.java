@@ -80,7 +80,7 @@ public class UserController {
 
         if (user != null) {
             memoryUserRepository.update(user);
-            return "redirect:/";
+            return "redirect:/user/list";
         }
 
         return "redirect:/user/update";
