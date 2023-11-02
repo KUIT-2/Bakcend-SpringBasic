@@ -18,7 +18,7 @@ import java.net.http.HttpRequest;
 
 @Slf4j
 @RequestMapping("/user")            // 코드의 중복 줄여줌
-@RequiredArgsConstructor
+@RequiredArgsConstructor            // final이 붙은 필드를 모아서 생성자를 자동 생성
 @Controller
 public class UserController {
     private final MemoryUserRepository memoryUserRepository;
@@ -43,14 +43,22 @@ public class UserController {
 
 
     /**
-     * TODO: createUser
+     * TODO: createUser -> CreateUserController
      * createUserV1 : @RequestParam
      * createUserV2 : @ModelAttribute
      */
-    @RequestMapping("/signup")      // -> id, passwd, name, email 4가지 정보 필요
-    public String CreateUser(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
+    // createUserV1 -> id, passwd, name, email 4가지 정보 필요
+    @RequestMapping("/signup")
+    public String CreateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
         User user = new User(Id, passwd, name, email);
         memoryUserRepository.insert(user);          // user 등록
+        return "redirect:/user/list";
+    }
+
+    // createUserV2 -> User 객체 받아오기
+    @RequestMapping("/signup")
+    public String CreateUserV2(@ModelAttribute User user){
+        memoryUserRepository.insert(user);
         return "redirect:/user/list";
     }
 
@@ -83,9 +91,17 @@ public class UserController {
      * updateUserV1 : @RequestParam
      * updateUserV2 : @ModelAttribute
      */
+    // updateUserV1 방식 -> 위의 createUser 방식과 동일
+    @RequestMapping("/update")
+    public String updateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
+        User user = new User(Id, passwd, name, email);
+        memoryUserRepository.findByUserId(Id).update(user);         // Id로 update target user 찾아서 정보 update
+        return "redirect:/user/list";
+    }
+
     // updateUserV2 방식 : ModelAttribute 어노테이션을 통해서 User 모델을 인자로 넘김
     @RequestMapping("/update")
-    public String updateUser(@ModelAttribute User targetUser){
+    public String updateUserV2(@ModelAttribute User targetUser){
         memoryUserRepository.findByUserId(targetUser.getUserId()).update(targetUser);       // update
         return "redirect:/user/list";
     }
