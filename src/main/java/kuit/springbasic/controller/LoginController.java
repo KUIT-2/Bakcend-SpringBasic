@@ -1,10 +1,15 @@
 package kuit.springbasic.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kuit.springbasic.db.MemoryUserRepository;
+import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Slf4j
 @Controller
@@ -27,8 +32,8 @@ public class LoginController {
      * TODO: showLoginFailed
      */
     @RequestMapping("/user/loginFailed")
-    public String showLoginFailedForm() {
-        log.info("LoginController.showLoginFailedFrom");
+    public String loginFailed() {
+        log.info("LoginController.loginFailed");
         return "/user/loginFailed";
     }
 
@@ -39,6 +44,19 @@ public class LoginController {
      * loginV3 : @RequestParam 생략(비추천)
      * loginV4 : @ModelAttribute
      */
+    @RequestMapping(value = "/user/login")
+    public String login(@ModelAttribute User loginedUser, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = memoryUserRepository.findByUserId(loginedUser.getUserId());
+
+        if (user != null && user.isSameUser(loginedUser.getUserId(), loginedUser.getPassword())) {
+            session.setAttribute("user", user);
+            return "redirect:/";
+        }
+
+        return "redirect:/user/loginFailed";
+    }
+
 
     /**
      * TODO: logout
