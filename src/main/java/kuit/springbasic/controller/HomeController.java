@@ -46,7 +46,7 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping("/")            // "/"에 대해서는 아래의 메서드로 매핑할 것이다 라는 의미
+    @RequestMapping("/")            // showhomeV3 방식 채택
                                     // -> localhost:8080/ 으로 넘어오는 내용에 대해서는 아래의 메서드로 매핑
     public String showHomeV3(Model model) {
         log.info("HomeController.homeV3");

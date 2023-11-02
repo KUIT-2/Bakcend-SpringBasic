@@ -38,7 +38,7 @@ public class LoginController {
      */
 
     // loginV1  -> RequestParam 어노테이션으로 Id, passwd 직접 받아오기 (가독성을 위해서 "~~" 추가)
-    @RequestMapping("/login")
+    @RequestMapping("/login1")
     public String loginV1(@RequestParam("Id") String Id, @RequestParam("passwd") String passwd, HttpServletRequest request){
         User loggedInUser = new User(Id, passwd);
         User user = memoryUserRepository.findByUserId(Id);
@@ -53,7 +53,7 @@ public class LoginController {
     }
 
     // loginV2  -> 위의 방식과 동일(RequestParam 어노테이션 뒤의 변수와 Param이 이름이 같을 경우 굳이 "~~" 안써도 됨)
-    @RequestMapping("/login")
+    @RequestMapping("/login2")
     public String loginV2(@RequestParam String Id, @RequestParam String passwd, HttpServletRequest request){
         User loggedInUser = new User(Id, passwd);
         User user = memoryUserRepository.findByUserId(Id);
@@ -68,7 +68,7 @@ public class LoginController {
     }
 
     // loginV3  -> 위의 방식과 동일(RequestParam 어노테이션도 생략 -> 팀플시 매너가 아님, 비추천)
-    @RequestMapping("/login")
+    @RequestMapping("/login3")
     public String loginV3(String Id, String passwd, HttpServletRequest request){
         User loggedInUser = new User(Id, passwd);
         User user = memoryUserRepository.findByUserId(Id);

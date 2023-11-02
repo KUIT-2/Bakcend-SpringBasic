@@ -48,7 +48,7 @@ public class UserController {
      * createUserV2 : @ModelAttribute
      */
     // createUserV1 -> id, passwd, name, email 4가지 정보 필요
-    @RequestMapping("/signup")
+    @RequestMapping("/signup1")
     public String CreateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
         User user = new User(Id, passwd, name, email);
         memoryUserRepository.insert(user);          // user 등록
@@ -92,7 +92,7 @@ public class UserController {
      * updateUserV2 : @ModelAttribute
      */
     // updateUserV1 방식 -> 위의 createUser 방식과 동일
-    @RequestMapping("/update")
+    @RequestMapping("/update1")
     public String updateUserV1(@RequestParam String Id, @RequestParam String passwd, @RequestParam String name, @RequestParam String email){
         User user = new User(Id, passwd, name, email);
         memoryUserRepository.findByUserId(Id).update(user);         // Id로 update target user 찾아서 정보 update
