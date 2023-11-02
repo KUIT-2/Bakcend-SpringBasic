@@ -47,6 +47,7 @@ public class UserController {
     public String showUserList(HttpServletRequest request) {
         log.info("UserController.showUserList");
         if (UserSessionUtils.isLoggedIn(request.getSession())) {
+            request.setAttribute("users", memoryUserRepository.findAll());
             return "/user/list";
         }
 
@@ -74,7 +75,7 @@ public class UserController {
      */
     @RequestMapping("/user/update")
     public String updateUser(@ModelAttribute User user) {
-        
+
         if (user != null) {
             memoryUserRepository.update(user);
             return "redirect:/";
