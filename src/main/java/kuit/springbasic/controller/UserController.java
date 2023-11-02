@@ -1,9 +1,11 @@
 package kuit.springbasic.controller;
 
 import kuit.springbasic.db.MemoryUserRepository;
+import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -28,6 +30,13 @@ public class UserController {
      * createUserV1 : @RequestParam
      * createUserV2 : @ModelAttribute
      */
+    @RequestMapping("/user/signup")
+    public String createUser(@ModelAttribute User newUser) {
+        log.info("UserController.createUser");
+        memoryUserRepository.insert(newUser);
+        return "redirect:/user/loginForm";
+    }
+
 
     /**
      * TODO: showUserList
