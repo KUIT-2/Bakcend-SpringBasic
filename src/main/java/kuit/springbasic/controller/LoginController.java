@@ -38,6 +38,7 @@ public class LoginController {
      */
     @RequestMapping("/login")
     public String login(@RequestParam String userId, @RequestParam String password, HttpServletRequest request) {
+        log.info("LoginController.login");
         User loggedInUser = new User(userId, password);
         User user = memoryUserRepository.findByUserId(userId);
         if (user != null && user.getUserId().equals(loggedInUser.getUserId()) && user.getPassword().equals(loggedInUser.getPassword())) {
@@ -77,6 +78,7 @@ public class LoginController {
      */
    @RequestMapping("/loginFailed")
    public String loginFailed(){
+       log.info("LoginController.loginFailed");
        return "redirect:/user/loginForm"; //id, passward 잘못입력하면 그냥 다시 로그인페이지로 리다이렉트
    }
 
@@ -85,6 +87,7 @@ public class LoginController {
      */
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
+        log.info("LoginController.logout");
         HttpSession session = request.getSession();
         session.removeAttribute("user");
         return "redirect:/"; // 로그아웃 후 홈페이지로 리다이렉트
