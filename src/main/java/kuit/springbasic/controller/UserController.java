@@ -1,11 +1,20 @@
 package kuit.springbasic.controller;
 
-public class UserController {
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Collection;
+
+@Slf4j
+@Controller
+@RequestMapping("/user")
+public class UserController {
 
     /**
      * TODO: showUserForm
      */
+
 
     /**
      * TODO: createUser
@@ -16,6 +25,7 @@ public class UserController {
     /**
      * TODO: showUserList
      */
+
 
     /**
      * TODO: showUserUpdateForm
