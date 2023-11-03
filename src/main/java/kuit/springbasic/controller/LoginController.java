@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class LoginController {
 
     private final MemoryUserRepository memoryUserRepository;
@@ -22,7 +23,7 @@ public class LoginController {
      * TODO: showLoginForm
      */
 
-    @RequestMapping("/user/loginForm")
+    @RequestMapping("/loginForm")
     public String showLoginForm() {
         log.info("LoginController.showLoginForm");
         return "/user/login";
@@ -31,7 +32,7 @@ public class LoginController {
     /**
      * TODO: showLoginFailed
      */
-    @RequestMapping("/user/loginFailed")
+    @RequestMapping("/loginFailed")
     public String loginFailed() {
         log.info("LoginController.loginFailed");
         return "/user/loginFailed";
@@ -44,7 +45,7 @@ public class LoginController {
      * loginV3 : @RequestParam 생략(비추천)
      * loginV4 : @ModelAttribute
      */
-    @RequestMapping(value = "/user/login")
+    @RequestMapping(value = "/login")
     public String login(@ModelAttribute User loginedUser, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = memoryUserRepository.findByUserId(loginedUser.getUserId());
@@ -61,7 +62,7 @@ public class LoginController {
     /**
      * TODO: logout
      */
-    @RequestMapping("/user/logout")
+    @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("user");

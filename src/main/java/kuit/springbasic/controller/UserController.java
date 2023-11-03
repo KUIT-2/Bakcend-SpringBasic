@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
     private final MemoryUserRepository memoryUserRepository;
@@ -21,7 +22,7 @@ public class UserController {
     /**
      * TODO: showUserForm
      */
-    @RequestMapping("/user/form")
+    @RequestMapping("/form")
     public String showForm() {
         log.info("UserController.showForm");
         return "/user/form";
@@ -33,7 +34,7 @@ public class UserController {
      * createUserV1 : @RequestParam
      * createUserV2 : @ModelAttribute
      */
-    @RequestMapping("/user/signup")
+    @RequestMapping("/signup")
     public String createUser(@ModelAttribute User newUser) {
         log.info("UserController.createUser");
         memoryUserRepository.insert(newUser);
@@ -44,7 +45,7 @@ public class UserController {
     /**
      * TODO: showUserList
      */
-    @RequestMapping("/user/list")
+    @RequestMapping("/list")
     public String showUserList(HttpServletRequest request) {
         log.info("UserController.showUserList");
         if (UserSessionUtils.isLoggedIn(request.getSession())) {
@@ -59,7 +60,7 @@ public class UserController {
     /**
      * TODO: showUserUpdateForm
      */
-    @RequestMapping("/user/updateForm")
+    @RequestMapping("/updateForm")
     public String showUserUpdateForm(@RequestParam String userId, HttpServletRequest request) {
         log.info("UserController.showUserUpdateForm");
         if(memoryUserRepository.findByUserId(userId).isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
@@ -75,7 +76,7 @@ public class UserController {
      * updateUserV1 : @RequestParam
      * updateUserV2 : @ModelAttribute
      */
-    @RequestMapping("/user/update")
+    @RequestMapping("/update")
     public String updateUser(@ModelAttribute User user) {
 
         if (user != null) {
