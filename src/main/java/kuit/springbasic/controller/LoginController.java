@@ -18,9 +18,6 @@ public class LoginController {
 
     private final MemoryUserRepository memoryUserRepository;
 
-    /**
-     * TODO: showLoginForm
-     */
     @RequestMapping("/user/loginForm")
     public String showLoginForm() {
         log.info("LoginController.showLoginForm");
@@ -48,19 +45,12 @@ public class LoginController {
         return "redirect:/user/loginFailed";
     }
 
-    /**
-     * TODO: showLoginFailed
-     */
     @RequestMapping("/user/loginFailed")
     public String showLoginFailed() {
         log.info("LoginController.showLoginFailed");
         return "/user/loginFailed";
     }
 
-
-    /**
-     * TODO: logout
-     */
     @RequestMapping("/user/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
