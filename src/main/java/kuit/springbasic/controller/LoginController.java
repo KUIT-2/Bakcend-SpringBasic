@@ -1,5 +1,6 @@
 package kuit.springbasic.controller;
 
+import kuit.springbasic.db.MemoryUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class LoginController {
 
+    private final MemoryUserRepository memoryUserRepository;
 
     /**
      * TODO: showLoginForm
