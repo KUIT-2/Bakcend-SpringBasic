@@ -17,43 +17,35 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-
     private final MemoryQuestionRepository memoryQuestionRepository;
 
-    @RequestMapping("/homeV1")
+//    @Autowired
+//    public HomeController(MemoryQuestionRepository memoryQuestionRepository) {
+//        this.memoryQuestionRepository = memoryQuestionRepository;
+//    }
+
+    //localhost:8080/ 으로 넘어오는 내용에 대해서는 이 컨트롤러를 통해서 이 내용으로 맵핑함
 //    @RequestMapping("/")
-    public ModelAndView showHomeV1(HttpServletRequest request, HttpServletResponse response) {
-        log.info("HomeController.homeV1");
+//    public ModelAndView showHome(){
+//        log.info("HomeController.showHome");
+//
+//        List<Question> questions = memoryQuestionRepository.findAll();
+//        ModelAndView mav = new ModelAndView("home");
+//        //mav.getModel().put("questions", questions);
+//        mav.addObject("questions",questions);
+//        return mav;
+//    }
 
-        ModelAndView modelAndView = new ModelAndView("home");
-
-        List<Question> questions = memoryQuestionRepository.findAll();
-        modelAndView.addObject("questions", questions);
-
-        return modelAndView;
-    }
-
-    @RequestMapping("/homeV2")
-//    @RequestMapping("/")
-    public ModelAndView showHomeV2() {
-        log.info("HomeController.homeV2");
-
-        ModelAndView modelAndView = new ModelAndView("home");
-
-        List<Question> questions = memoryQuestionRepository.findAll();
-        modelAndView.addObject("questions", questions);
-
-        return modelAndView;
-    }
-
+    //modelandview 말고 string으로 반환하는 방법
     @RequestMapping("/")
-    public String showHomeV3(Model model) {
-        log.info("HomeController.homeV3");
+    public String showHome2(Model model){
+        log.info("HomeController.showHome2");
 
         List<Question> questions = memoryQuestionRepository.findAll();
         model.addAttribute("questions", questions);
 
         return "home";
     }
+
 
 }
