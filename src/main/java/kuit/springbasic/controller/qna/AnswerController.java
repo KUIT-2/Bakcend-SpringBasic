@@ -1,10 +1,11 @@
 package kuit.springbasic.controller.qna;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@RequiredArgsConstructor
 public class AnswerController {
-
 
     /**
      * TODO: addAnswer - @PostMapping
@@ -13,5 +14,6 @@ public class AnswerController {
      * addAnswerV2 : @RequestParam, @ResponseBody
      * addAnswerV3 : @ModelAttribute, @ResponseBody
      */
+
 
 }
