@@ -1,5 +1,6 @@
 package kuit.springbasic.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,31 +9,24 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"questionId"})
 public class Question {
-    private int questionId;
+    private Long questionId;
     private String writer;
     private String title;
     private String contents;
     private Date createdDate;
-    private int countOfAnswer;
+    private Long countOfAnswer;
 
-    public Question(int questionId, String writer, String title, String contents, Date createdDate, int countOfAnswer) {
-        this.questionId = questionId;
-        this.writer = writer;
-        this.title = title;
-        this.contents = contents;
-        this.createdDate = createdDate;
-        this.countOfAnswer = countOfAnswer;
-    }
-
-    public Question(String writer, String title, String contents, int countOfAnswer) {
-        this.questionId = 0;
+    public Question(String writer, String title, String contents, Long countOfAnswer) {
+        this.questionId = 0L;
         this.writer = writer;
         this.title = title;
         this.contents = contents;

@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -18,14 +19,14 @@ import java.util.Objects;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Answer {
-    private int answerId;
-    private int questionId;
+    private Long answerId;
+    private Long questionId;
     private String writer;
     private String contents;
     private Date createdDate;
 
 
-    public Answer(int questionId, String writer, String contents) {
+    public Answer(Long questionId, String writer, String contents) {
         this.questionId = questionId;
         this.writer = writer;
         this.contents = contents;
