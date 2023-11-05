@@ -2,7 +2,7 @@ package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import kuit.springbasic.db.MemoryUserRepository;
+import kuit.springbasic.dao.UserDao;
 import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,7 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final MemoryUserRepository memoryUserRepository;
-
+    private final UserDao userDao;
     /**
      * TODO: showLoginForm
      */
@@ -53,7 +52,7 @@ public class LoginController {
         log.info("LoginController.loginV1");
 
         User loggedInUser = new User(userId, password);
-        User user = memoryUserRepository.findByUserId(userId);
+        User user = userDao.findByUserId(userId);
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
@@ -69,7 +68,7 @@ public class LoginController {
         log.info("LoginController.loginV2");
 
         User loggedInUser = new User(userId, password);
-        User user = memoryUserRepository.findByUserId(userId);
+        User user = userDao.findByUserId(userId);
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
@@ -85,7 +84,7 @@ public class LoginController {
         log.info("LoginController.loginV3");
 
         User loggedInUser = new User(userId, password);
-        User user = memoryUserRepository.findByUserId(userId);
+        User user = userDao.findByUserId(userId);
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();
@@ -100,7 +99,7 @@ public class LoginController {
                           HttpServletRequest request) throws SQLException {
         log.info("LoginController.loginV4");
 
-        User user = memoryUserRepository.findByUserId(loggedInUser.getUserId());
+        User user = userDao.findByUserId(loggedInUser.getUserId());
 
         if (user != null && user.equals(loggedInUser)) {
             HttpSession session = request.getSession();

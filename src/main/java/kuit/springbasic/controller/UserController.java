@@ -2,7 +2,7 @@ package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import kuit.springbasic.db.MemoryUserRepository;
+import kuit.springbasic.dao.UserDao;
 import kuit.springbasic.domain.User;
 import kuit.springbasic.util.UserSessionUtils;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 @RequestMapping("/user")
 public class UserController {
 
-    private final MemoryUserRepository memoryUserRepository;
+    private final UserDao userDao;
 
     /**
      * TODO: showUserForm
@@ -45,7 +45,7 @@ public class UserController {
         log.info("UserController.createUserV1");
 
         User user = new User(userId, password, name, email);
-        memoryUserRepository.insert(user);
+        userDao.insert(user);
 
         return "redirect:/user/list";
     }
@@ -53,7 +53,7 @@ public class UserController {
     @RequestMapping("/signup")
     public String createUserV2(@ModelAttribute User user) {
         log.info("UserController.createUserV2");
-        memoryUserRepository.insert(user);
+        userDao.insert(user);
         return "redirect:/user/list";
     }
 
@@ -66,7 +66,7 @@ public class UserController {
 
         HttpSession session = request.getSession();
         if (UserSessionUtils.isLoggedIn(session)) {
-            model.addAttribute("users", memoryUserRepository.findAll());
+            model.addAttribute("users", userDao.findAll());
             return "/user/list";
         }
         return "redirect:/user/loginForm";
@@ -79,7 +79,7 @@ public class UserController {
     public String showUserUpdateForm(@RequestParam String userId, Model model) throws SQLException {
         log.info("UserController.showUserUpdateForm");
 
-        User user = memoryUserRepository.findByUserId(userId);
+        User user = userDao.findByUserId(userId);
         if (user != null) {
             model.addAttribute("user", user);
             return "/user/updateForm";
@@ -100,7 +100,7 @@ public class UserController {
         log.info("UserController.updateUserV1");
 
         User user = new User(userId, password, name, email);
-        memoryUserRepository.update(user);
+        userDao.update(user);
 
         return "redirect:/user/list";
     }
@@ -108,7 +108,7 @@ public class UserController {
     @RequestMapping("/update")
     public String updateUserV2(@ModelAttribute User user) {
         log.info("UserController.updateUserV2");
-        memoryUserRepository.update(user);
+        userDao.update(user);
         return "redirect:/user/list";
     }
 
