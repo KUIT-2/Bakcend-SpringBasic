@@ -7,6 +7,7 @@ import kuit.springbasic.db.MemoryAnswerRepository;
 import kuit.springbasic.db.MemoryQuestionRepository;
 import kuit.springbasic.domain.Answer;
 import kuit.springbasic.domain.Question;
+import kuit.springbasic.domain.User;
 import kuit.springbasic.util.UserSessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,6 @@ public class QuestionController {
 
     @Autowired
     private MemoryQuestionRepository memoryQuestionRepository;
-
-    @Autowired
-    private MemoryAnswerRepository memoryAnswerRepository;
 
     /**
      * TODO: showQuestionForm
@@ -71,58 +69,63 @@ public class QuestionController {
      * showUpdateQuestionFormV2 : @RequestParam, @SessionAttribute, Model
      */
 
-    @GetMapping("/updateForm")
-    public ModelAndView showUpdateQuestionForm(@RequestParam Integer questionId,
-                                               HttpServletRequest request,
-                                               Model model) {
-        log.info("showUpdateQuestionForm");
-
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
-        List<Answer> answers = memoryAnswerRepository.findAllByQuestionId(questionId);
-
-
-        HttpSession session = request.getSession();
-        if (!UserSessionUtils.isLoggedIn(session)) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/users/loginForm");
-            return modelAndView;
-        }
-
-
-        if (!question.isSameUser(Objects.requireNonNull(UserSessionUtils.getUserFromSession(session)))) {
-            ModelAndView modelAndView = new ModelAndView("/qna/show?questionId=" + questionId);
-            return modelAndView;
-        }
-
-        request.setAttribute("question", question);
-        request.setAttribute("answers",answers);
-
-        ModelAndView modelAndView = new ModelAndView("qna/updateForm");
-        return modelAndView;
-    }
-
-//    여기부터 다시 @SessionAttribute 다시
 //    @GetMapping("/updateForm")
-//    public ModelAndView showUpdateQuestionForm(@RequestParam Integer questionId,
-//                                               @SessionAttribute String session,
+//    public ModelAndView showUpdateQuestionFormV1(@RequestParam Integer questionId,
+//                                               HttpServletRequest request,
 //                                               Model model) {
-//        log.info("showUpdateQuestionForm");
+//        log.info("showUpdateQuestionFormV1");
 //
 //        Question question = memoryQuestionRepository.findByQuestionId(questionId);
-//        List<Answer> answers = memoryAnswerRepository.findAllByQuestionId(questionId);
-//        session("question", question);
-//        request.setAttribute("answers",answers);
-//        ModelAndView modelAndView = new ModelAndView("qna/updateForm");
+//        HttpSession session = request.getSession();
 //
+//        if (!UserSessionUtils.isLoggedIn(session)) {
+//            ModelAndView modelAndView = new ModelAndView("redirect:/users/loginForm");
+//            return modelAndView;
+//        }
+//
+//
+//        if (!question.isSameUser(Objects.requireNonNull(UserSessionUtils.getUserFromSession(session)))) {
+//            ModelAndView modelAndView = new ModelAndView("/qna/show?questionId=" + questionId);
+//            return modelAndView;
+//        }
+//
+//        model.addAttribute("question", question);
+//
+//        ModelAndView modelAndView = new ModelAndView("qna/updateForm");
 //        return modelAndView;
 //    }
 
+    @GetMapping("/updateForm")
+    public ModelAndView showUpdateQuestionFormV2(@RequestParam Integer questionId,
+                                               @SessionAttribute(UserSessionUtils.USER_SESSION_KEY) User user,
+                                               Model model) {
+        log.info("showUpdateQuestionFormV2");
+        log.info("showUpdateQuestionFormV2_SessionAttribute: "+user.getUserId());
+
+//        if (!UserSessionUtils.isLogined(session)) {
+//            return jspView("redirect:/users/loginForm") ;
+//        }
+
+        Question question = memoryQuestionRepository.findByQuestionId(questionId);
+
+        if (!question.isSameUser(user)) {
+            ModelAndView modelAndView = new ModelAndView("/qna/show?questionId=" + questionId);
+            return modelAndView;
+        }
+        model.addAttribute("question", question);
+        ModelAndView modelAndView = new ModelAndView("qna/updateForm");
+        return modelAndView;
+    }
 
 
     /**
      * TODO: updateQuestion
      */
     @PostMapping("/update")
-    public ModelAndView updateQuestion(@RequestParam Integer questionId, HttpServletRequest request) {
+    public ModelAndView updateQuestion(@RequestParam Integer questionId,
+                                       @RequestParam String title,
+                                       @RequestParam String contents,
+                                       HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         if (!UserSessionUtils.isLoggedIn(session)) {
@@ -136,7 +139,7 @@ public class QuestionController {
             throw new IllegalArgumentException();
         }
 
-        question.updateTitleAndContents(request.getParameter("title"),request.getParameter("contents"));
+        question.updateTitleAndContents(title, contents);
         memoryQuestionRepository.update(question);
 
 
