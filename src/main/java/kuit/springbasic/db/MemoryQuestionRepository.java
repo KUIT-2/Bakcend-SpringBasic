@@ -4,11 +4,10 @@ package kuit.springbasic.db;
 import kuit.springbasic.domain.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,25 +16,38 @@ public class MemoryQuestionRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public Question findByQuestionId(int id) {
-        String sql = "select * from "
+        String sql = "select * from questions where questionId=?";
+        return jdbcTemplate.queryForObject(sql, questionRowMapper(), id);
     }
 
     public void update(Question question) {
-        Question repoQuestion = questions.get(Integer.toString(question.getQuestionId()));
-        repoQuestion.update(question);
+        String sql = "update questions set title=?, contents=? where questionId=?";
+        jdbcTemplate.update(sql, question.getTitle(), question.getContents(),
+                question.getQuestionId());
     }
 
     public void insert(Question question) {
-        question.setQuestionId(getPK());
-        questions.put(Integer.toString(question.getQuestionId()), question);
+        String sql = "insert into questions (writer, title, contents, countOfAnswer) values (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, question.getWriter(), question.getTitle(), question.getContents(),
+                0);
     }
 
     public void updateCountOfAnswer(Question question) {
-        Question repoQuestion = questions.get(Integer.toString(question.getQuestionId()));
-        repoQuestion.updateCountofAnswer(question);
+        String sql = "update questions set countOfAnswer=? where questionId=?";
+        jdbcTemplate.update(sql, question.getCountOfAnswer(), question.getQuestionId());
     }
 
     public List<Question> findAll() {
-        return questions.values().stream().toList();
+        String sql = "select * from questions";
+        return jdbcTemplate.query(sql, questionRowMapper());
+    }
+
+    private RowMapper<Question> questionRowMapper() {
+        return (rs, rowNum) -> {
+            Question question = new Question(rs.getInt("questionId"), rs.getString("writer"),
+                    rs.getString("title"), rs.getString("contents"), rs.getDate("createdDate"),
+                    rs.getInt("countOfAnswer"));
+            return question;
+        };
     }
 }
