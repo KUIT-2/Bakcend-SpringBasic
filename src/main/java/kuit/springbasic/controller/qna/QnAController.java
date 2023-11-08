@@ -1,7 +1,7 @@
 package kuit.springbasic.controller.qna;
 
-import kuit.springbasic.db.MemoryAnswerRepository;
-import kuit.springbasic.db.MemoryQuestionRepository;
+import kuit.springbasic.db.AnswerDAO;
+import kuit.springbasic.db.QuestionDAO;
 import kuit.springbasic.domain.Answer;
 import kuit.springbasic.domain.Question;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping("/qna")
 public class QnAController {
 
-    private final MemoryAnswerRepository memoryAnswerRepository;
-    private final MemoryQuestionRepository memoryQuestionRepository;
+    private final AnswerDAO answerDAO;
+    private final QuestionDAO questionDAO;
     /**
      * TODO: showQnA
      */
@@ -29,8 +29,8 @@ public class QnAController {
     public String showQnA(@RequestParam int questionId, Model model) throws SQLException {
         log.info("QuestionController.showQnA");
 
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
-        List<Answer> answers = memoryAnswerRepository.findAllByQuestionId(questionId);
+        Question question = questionDAO.findByQuestionId(questionId);
+        List<Answer> answers = answerDAO.findAllByQuestionId(questionId);
         model.addAttribute("question", question);
         model.addAttribute("answers", answers);
 

@@ -2,8 +2,8 @@ package kuit.springbasic.controller.qna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
-import kuit.springbasic.db.MemoryAnswerRepository;
-import kuit.springbasic.db.MemoryQuestionRepository;
+import kuit.springbasic.db.AnswerDAO;
+import kuit.springbasic.db.QuestionDAO;
 
 import kuit.springbasic.domain.Answer;
 import kuit.springbasic.domain.Question;
@@ -26,8 +26,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AnswerController {
 
-    private final MemoryAnswerRepository memoryAnswerRepository;
-    private final MemoryQuestionRepository memoryQuestionRepository;
+    private final AnswerDAO answerDAO;
+    private final QuestionDAO questionDAO;
 
     /**
      * TODO: addAnswer - @PostMapping
@@ -43,14 +43,14 @@ public class AnswerController {
         log.info("AnswerController.addAnswerV0");
 
         Answer answer = new Answer(questionId, writer, contents);
-        Answer savedAnswer = memoryAnswerRepository.insert(answer);
+        answerDAO.insert(answer);
 
-        Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
+        Question question = questionDAO.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
-        memoryQuestionRepository.updateCountOfAnswer(question);
+        questionDAO.updateCountOfAnswer(question);
 
         Map<String, Object> model = new HashMap<>();
-        model.put("answer", savedAnswer);
+        model.put("answer", answer);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -63,13 +63,13 @@ public class AnswerController {
         log.info("AnswerController.addAnswerV1");
 
         Answer answer = new Answer(questionId, writer, contents);
-        Answer savedAnswer = memoryAnswerRepository.insert(answer);
+        answerDAO.insert(answer);
 
-        Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
+        Question question = questionDAO.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
-        memoryQuestionRepository.updateCountOfAnswer(question);
+        questionDAO.updateCountOfAnswer(question);
 
-        model.addAttribute("answer", savedAnswer);
+        model.addAttribute("answer", answer);
 
         return "jsonView";
     }
@@ -80,13 +80,13 @@ public class AnswerController {
         log.info("AnswerController.addAnswerV2");
 
         Answer answer = new Answer(questionId, writer, contents);
-        Answer savedAnswer = memoryAnswerRepository.insert(answer);
+        answerDAO.insert(answer);
 
-        Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
+        Question question = questionDAO.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
-        memoryQuestionRepository.updateCountOfAnswer(question);
+        questionDAO.updateCountOfAnswer(question);
 
-        return savedAnswer;
+        return answer;
     }
 
     @ResponseBody
@@ -94,13 +94,13 @@ public class AnswerController {
     public Answer addAnswerV3(@ModelAttribute Answer answer) throws SQLException {
         log.info("AnswerController.addAnswerV3");
 
-        Answer savedAnswer = memoryAnswerRepository.insert(answer);
+        answerDAO.insert(answer);
 
-        Question question = memoryQuestionRepository.findByQuestionId(answer.getQuestionId());
+        Question question = questionDAO.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
-        memoryQuestionRepository.updateCountOfAnswer(question);
+        questionDAO.updateCountOfAnswer(question);
 
-        return savedAnswer;
+        return answer;
     }
 
 }

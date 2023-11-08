@@ -2,7 +2,7 @@ package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kuit.springbasic.db.MemoryQuestionRepository;
+import kuit.springbasic.db.QuestionDAO;
 import kuit.springbasic.domain.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemoryQuestionRepository memoryQuestionRepository;
+    private final QuestionDAO questionDAO;
 
     @RequestMapping("/homeV1")
     public ModelAndView showHomeV1(HttpServletRequest request, HttpServletResponse response) {
@@ -26,7 +26,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("home");
 
-        List<Question> questions = memoryQuestionRepository.findAll();
+        List<Question> questions = questionDAO.findAll();
         modelAndView.addObject("questions", questions);
 
         return modelAndView;
@@ -38,7 +38,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("home");
 
-        List<Question> questions = memoryQuestionRepository.findAll();
+        List<Question> questions = questionDAO.findAll();
         modelAndView.addObject("questions", questions);
 
         return modelAndView;
@@ -48,7 +48,7 @@ public class HomeController {
     public String showHomeV3(Model model) {
         log.info("HomeController.homeV3");
 
-        List<Question> questions = memoryQuestionRepository.findAll();
+        List<Question> questions = questionDAO.findAll();
         model.addAttribute("questions", questions);
 
         return "home";
