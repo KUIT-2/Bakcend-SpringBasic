@@ -2,6 +2,8 @@ package kuit.springbasic.db;
 
 
 import kuit.springbasic.domain.Question;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,22 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class MemoryQuestionRepository {
-    private Map<String, Question> questions= new HashMap<>();
-    private static int PK = 0;
 
-    public MemoryQuestionRepository() {
-        insert(new Question("이주언","건대 어떻게 가나요?","홍대에서 건대 어떻게 가나요?",1));
-        insert(new Question("강연주","서버 개잘하는데 질문받음","질문 ㄱ",0));
-
-    }
-
-    public static int getPK(){
-        return ++PK;
-    }
+    private final JdbcTemplate jdbcTemplate;
 
     public Question findByQuestionId(int id) {
-        return questions.get(String.valueOf(id));
+        String sql = "select * from "
     }
 
     public void update(Question question) {
