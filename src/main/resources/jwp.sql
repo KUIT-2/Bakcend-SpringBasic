@@ -18,7 +18,7 @@ CREATE TABLE QUESTIONS (
                            writer				varchar(30)			NOT NULL,
                            title				varchar(50)			NOT NULL,
                            contents			varchar(5000)		NOT NULL,
-                           createdDate			timestamp			NOT NULL DEFAULT CURRENT_TIMESTAMP,,
+                           createdDate			timestamp			NOT NULL DEFAULT CURRENT_TIMESTAMP,
                            countOfAnswer int,
                            PRIMARY KEY               (questionId)
 );
