@@ -20,10 +20,9 @@ public class AnswerDAO {
         return jdbcTemplate.query(sql, answerRowMapper(), id);
     }
 
-    public Answer insert(Answer answer) {
+    public void insert(Answer answer) {
         String sql = "insert into answers (questionId, writer, contents) values (?, ?, ?)";
-        return jdbcTemplate.queryForObject(sql, answerRowMapper(), answer.getQuestionId(),
-                answer.getWriter(), answer.getContents());
+        jdbcTemplate.update(sql, answer.getQuestionId(), answer.getWriter(), answer.getContents());
     }
 
     private RowMapper<Answer> answerRowMapper() {
