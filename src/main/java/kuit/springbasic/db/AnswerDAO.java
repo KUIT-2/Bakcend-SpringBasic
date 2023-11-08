@@ -7,17 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Repository
 @RequiredArgsConstructor
-public class MemoryAnswerRepository {
+public class AnswerDAO {
 
     private final JdbcTemplate jdbcTemplate;
 

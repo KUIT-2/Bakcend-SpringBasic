@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemoryQuestionRepository {
+public class QuestionDAO {
 
     private final JdbcTemplate jdbcTemplate;
 

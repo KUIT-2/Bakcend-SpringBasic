@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @Repository
 @RequiredArgsConstructor
-public class MemoryUserRepository {
+public class UserDAO {
 
     private final JdbcTemplate jdbcTemplate;
 

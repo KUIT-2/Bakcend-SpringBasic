@@ -2,7 +2,7 @@ package kuit.springbasic.controller.qna;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import kuit.springbasic.db.MemoryQuestionRepository;
+import kuit.springbasic.db.QuestionDAO;
 import kuit.springbasic.domain.Question;
 import kuit.springbasic.domain.User;
 import kuit.springbasic.util.UserSessionUtils;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class
 QuestionController {
 
-    private final MemoryQuestionRepository memoryQuestionRepository;
+    private final QuestionDAO questionDAO;
 
     /**
      * TODO: showQuestionForm
@@ -52,7 +52,7 @@ QuestionController {
         log.info("QuestionController.createQuestionV1");
 
         Question question = new Question(writer, title, contents, 0);
-        memoryQuestionRepository.insert(question);
+        questionDAO.insert(question);
 
         return "redirect:/";
     }
@@ -60,7 +60,7 @@ QuestionController {
     @RequestMapping("/create")
     public String createQuestionV2(@ModelAttribute Question question) throws SQLException {
         log.info("QuestionController.createQuestionV2");
-        memoryQuestionRepository.insert(question);
+        questionDAO.insert(question);
         return "redirect:/";
     }
 
@@ -79,7 +79,7 @@ QuestionController {
             return "redirect:/user/loginForm";
         }
 
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
+        Question question = questionDAO.findByQuestionId(questionId);
         User userFromSession = UserSessionUtils.getUserFromSession(session);
         if (!question.isSameUser(Objects.requireNonNull(userFromSession))) {
             throw new IllegalArgumentException();
@@ -99,7 +99,7 @@ QuestionController {
             return "redirect:/user/loginForm";
         }
 
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
+        Question question = questionDAO.findByQuestionId(questionId);
         if (!question.isSameUser(Objects.requireNonNull(userFromSession))) {
             throw new IllegalArgumentException();
         }
@@ -120,12 +120,12 @@ QuestionController {
             return "redirect:/user/loginForm";
         }
 
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
+        Question question = questionDAO.findByQuestionId(questionId);
         if (!question.isSameUser(userFromSession)) {
             throw new IllegalArgumentException();
         }
         question.updateTitleAndContents(title, contents);
-        memoryQuestionRepository.update(question);
+        questionDAO.update(question);
 
         return "redirect:/";
     }
