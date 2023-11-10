@@ -2,19 +2,23 @@ package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import kuit.springbasic.db.MemoryUserRepository;
+//import kuit.springbasic.db.MemoryUserRepository;
+import kuit.springbasic.dao.UserDao;
 import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class LoginController {
-    private final MemoryUserRepository memoryUserRepository;
+    //private final MemoryUserRepository memoryUserRepository;
+    private final UserDao userDao;
     /**
      * TODO: showLoginForm
      */
@@ -41,9 +45,9 @@ public class LoginController {
      * loginV4 : @ModelAttribute
      */
     @PostMapping("/login")
-    public String login(@ModelAttribute User loggedInUser, HttpServletRequest request) {
+    public String login(@ModelAttribute User loggedInUser, HttpServletRequest request) throws SQLException {
 
-        User user = memoryUserRepository.findByUserId(loggedInUser.getUserId());
+        User user = userDao.findByUserId(loggedInUser.getUserId());
         // ModelAttribute의 User 객체에서 UserID를 뽑아온 후 memoryUserRepository를 통해 저장된 User 객체를 조회
 
         if (user != null && user.getUserId().equals(loggedInUser.getUserId()) && user.getPassword().equals(loggedInUser.getPassword())) {
