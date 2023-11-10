@@ -2,6 +2,7 @@ package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kuit.springbasic.dao.UserDao;
 import kuit.springbasic.db.MemoryUserRepository;
 import kuit.springbasic.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class LoginController {
 
-    private final MemoryUserRepository memoryUserRepository;
+    //private final MemoryUserRepository memoryUserRepository;
+    private final UserDao userDao;
 
     @GetMapping("/loginForm")
     public String showLoginForm() {
@@ -32,7 +34,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@ModelAttribute User loggedInUser, HttpServletRequest request) {
         log.info("LoginController.login");
-        User user = memoryUserRepository.findByUserId(loggedInUser.getUserId());
+        User user = userDao.findByUserId(loggedInUser.getUserId());
 
         if(user != null && user.getUserId().equals(loggedInUser.getUserId()) && user.getPassword().equals(loggedInUser.getPassword())) {
             HttpSession session = request.getSession();

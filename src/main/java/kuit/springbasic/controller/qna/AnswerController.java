@@ -1,5 +1,7 @@
 package kuit.springbasic.controller.qna;
 
+import kuit.springbasic.dao.AnswerDao;
+import kuit.springbasic.dao.QuestionDao;
 import kuit.springbasic.db.MemoryAnswerRepository;
 import kuit.springbasic.db.MemoryQuestionRepository;
 import kuit.springbasic.domain.Answer;
@@ -13,16 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/qna")
 public class AnswerController {
-    private final MemoryAnswerRepository answerRepository;
-    private final MemoryQuestionRepository questionRepository;
+//    private final MemoryAnswerRepository answerRepository;
+//    private final MemoryQuestionRepository questionRepository;
+    private final AnswerDao answerDao;
+    private final QuestionDao questionDao;
 
     @RequestMapping("/addAnswer")
     public Answer addAnswer(@ModelAttribute Answer answer) {
         log.info("AnswerController.addAnswer");
-        answerRepository.insert(answer);
-        Question question = questionRepository.findByQuestionId(answer.getQuestionId());
+        answerDao.insert(answer);
+        Question question = questionDao.findByQuestionId(answer.getQuestionId());
         question.increaseCountOfAnswer();
-        questionRepository.updateCountOfAnswer(question);
+        questionDao.updateCountOfAnswer(question);
         return answer;
     }
 

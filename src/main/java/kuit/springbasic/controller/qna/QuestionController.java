@@ -2,6 +2,7 @@ package kuit.springbasic.controller.qna;
 
 
 import jakarta.servlet.http.HttpSession;
+import kuit.springbasic.dao.QuestionDao;
 import kuit.springbasic.db.MemoryQuestionRepository;
 import kuit.springbasic.domain.Question;
 import kuit.springbasic.util.UserSessionUtils;
@@ -18,7 +19,8 @@ import java.util.Objects;
 @RequestMapping("/qna")
 public class QuestionController {
 
-    private final MemoryQuestionRepository questionRepository;
+    //private final MemoryQuestionRepository questionRepository;
+    private final QuestionDao questionDao;
 
     @GetMapping("/form")
     public String showQuestionForm(HttpSession session) {
@@ -30,21 +32,21 @@ public class QuestionController {
 
     @PostMapping("/create")
     public String createQuestion(@ModelAttribute Question question) {
-        questionRepository.insert(question);
+        questionDao.insert(question);
         return "redirect:/";
     }
 
     @GetMapping("/updateForm")
     public String showUpdateQuestionForm(HttpSession session, @RequestParam int questionId, Model model) {
         if(!UserSessionUtils.isLoggedIn(session)) {
-            return "redirect:/users/loginForm";
+            return "redirect:/user/loginForm";
         }
-        Question question = questionRepository.findByQuestionId(questionId);
+        Question question = questionDao.findByQuestionId(questionId);
         if(!question.isSameUser(Objects.requireNonNull(UserSessionUtils.getUserFromSession(session)))) {
             return "/qna/show?questionId=" + questionId;
         }
         model.addAttribute("question", question);
-        return "/qna/updateForm.jsp";
+        return "/qna/updateForm";
     }
 
     @PostMapping("/update")
@@ -52,14 +54,14 @@ public class QuestionController {
         if (!UserSessionUtils.isLoggedIn(session)) {
             return "redirect:/users/loginForm";
         }
-        Question question = questionRepository.findByQuestionId(questionId);
+        Question question = questionDao.findByQuestionId(questionId);
 
         if (!question.isSameUser(Objects.requireNonNull(UserSessionUtils.getUserFromSession(session)))) {
             throw new IllegalArgumentException();
         }
 
         question.updateTitleAndContents(title, contents);
-        questionRepository.update(question);
+        questionDao.update(question);
 
         return "redirect:/";
     }

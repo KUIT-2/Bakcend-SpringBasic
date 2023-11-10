@@ -1,5 +1,7 @@
 package kuit.springbasic.controller.qna;
 
+import kuit.springbasic.dao.AnswerDao;
+import kuit.springbasic.dao.QuestionDao;
 import kuit.springbasic.db.MemoryAnswerRepository;
 import kuit.springbasic.db.MemoryQuestionRepository;
 import kuit.springbasic.domain.Answer;
@@ -21,14 +23,16 @@ import java.util.List;
 @RequestMapping("/qna")
 public class QnAController {
 
-    private final MemoryQuestionRepository memoryQuestionRepository;
-    private final MemoryAnswerRepository memoryAnswerRepository;
+    //private final MemoryQuestionRepository memoryQuestionRepository;
+    //private final MemoryAnswerRepository memoryAnswerRepository;
+    private final QuestionDao questionDao;
+    private final AnswerDao answerDao;
 
     @GetMapping("/show")
     public String showQnA(@RequestParam int questionId, Model model) {
         log.info("QnAController.showQnA");
-        Question question = memoryQuestionRepository.findByQuestionId(questionId);
-        List<Answer> answers = memoryAnswerRepository.findAllByQuestionId(questionId);
+        Question question = questionDao.findByQuestionId(questionId);
+        List<Answer> answers = answerDao.findAllByQuestionId(questionId);
         model.addAttribute("question", question).addAttribute("answers", answers);
         return "/qna/show";
     }

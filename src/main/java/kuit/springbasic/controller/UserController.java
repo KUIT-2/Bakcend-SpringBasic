@@ -1,6 +1,7 @@
 package kuit.springbasic.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kuit.springbasic.dao.UserDao;
 import kuit.springbasic.db.MemoryUserRepository;
 import kuit.springbasic.domain.User;
 import kuit.springbasic.util.UserSessionUtils;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final MemoryUserRepository memoryUserRepository;
+    //private final MemoryUserRepository memoryUserRepository;
+    private final UserDao userDao;
 
     @GetMapping("form")
     public String showUserForm() {
@@ -27,7 +29,7 @@ public class UserController {
     @PostMapping("/signup")
     public String signUp(@ModelAttribute User user) {
         log.info("UserController.signUp");
-        memoryUserRepository.insert(user);
+        userDao.insert(user);
         return "redirect:/user/list";
     }
 
@@ -35,7 +37,7 @@ public class UserController {
     public String showUserList(HttpSession session, Model model) {
         log.info("UserController.showUserList");
         if(UserSessionUtils.isLoggedIn(session)) {
-            model.addAttribute("users", memoryUserRepository.findAll());
+            model.addAttribute("users", userDao.findAll());
             return "/user/list";
         }
         return "redirect:/user/loginForm";
@@ -44,7 +46,7 @@ public class UserController {
     @GetMapping("/updateForm")
     public String showUserUpdateForm(@RequestParam String userId, Model model) {
         log.info("UserController.showUserUpdateForm");
-        User user = memoryUserRepository.findByUserId(userId);
+        User user = userDao.findByUserId(userId);
         if(user != null) {
             model.addAttribute("user", user);
             return "/user/updateForm";
@@ -55,7 +57,7 @@ public class UserController {
     @PostMapping("/update")
     public String updateUser(@ModelAttribute User user) {
         log.info("UserController.updateUser");
-        memoryUserRepository.update(user);
+        userDao.update(user);
         return "redirect:/user/list";
     }
 
