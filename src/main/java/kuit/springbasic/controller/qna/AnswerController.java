@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,13 +95,34 @@ public class AnswerController {
     public Answer addAnswerV3(@ModelAttribute Answer answer) throws SQLException {
         log.info("AnswerController.addAnswerV3");
 
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        answer.setCreatedDate(date);
+
         Answer savedAnswer = answerDao.insert(answer);
 
         Question question = questionDao.findByQuestionId(answer.getQuestionId());
+
         question.increaseCountOfAnswer();
         questionDao.updateCountOfAnswer(question);
 
         return savedAnswer;
+    }
+
+    @PostMapping("/api/qna/deleteAnswer")
+    public String deleteAnswer(@RequestParam Long answerId) throws SQLException {
+        log.info("AnswerController.deleteAnswer");
+
+        Answer deletedAnswer = answerDao.findByAnswerId(answerId);
+        Question question = questionDao.findByQuestionId(deletedAnswer.getQuestionId());
+
+        if (deletedAnswer != null) {
+            answerDao.delete(answerId.intValue());
+            question.decreaseCountOfAnswer();
+            questionDao.updateCountOfAnswer(question);
+        }
+
+        return "redirect:/qna/show?questionId=" + question.getQuestionId();
     }
 
 }

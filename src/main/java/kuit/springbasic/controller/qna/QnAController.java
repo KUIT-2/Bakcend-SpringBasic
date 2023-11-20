@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +36,19 @@ public class QnAController {
         model.addAttribute("answers", answers);
 
         return "/qna/show";
+    }
+
+    @RequestMapping("/delete")
+    public String deleteQuestion(@RequestParam Long questionId) throws SQLException{
+        log.info("QuestionController.delete");
+
+        Question question = questionDao.findByQuestionId(questionId);
+        if (question != null) {
+            questionDao.delete(questionId.intValue());
+        }
+
+        return "redirect:/";
+
     }
 
 }

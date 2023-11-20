@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -59,6 +60,11 @@ public class QuestionController {
     @RequestMapping("/create")
     public String createQuestionV2(@ModelAttribute Question question) throws SQLException {
         log.info("QuestionController.createQuestionV2");
+
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        question.setCreatedDate(date);
+
         questionDao.insert(question);
         return "redirect:/";
     }

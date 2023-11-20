@@ -26,6 +26,7 @@ public class AnswerDao {
             ps.setString(1, answer.getWriter());
             ps.setString(2, answer.getContents());
             ps.setDate(3, answer.getCreatedDate());
+            ps.setLong(4, answer.getQuestionId());
             return ps;
         }, keyHolder);
         answer.setAnswerId(keyHolder.getKey().longValue());
@@ -35,6 +36,16 @@ public class AnswerDao {
     public List<Answer> findAllByQuestionId(Long questionId) {
         String sql = "select * from answers where questionId=? order by answerId";
         return jdbcTemplate.query(sql, answerRowMapper(), questionId);
+    }
+
+    public Answer findByAnswerId(Long answerId) {
+        String sql = "select * from answers where answerId=?";
+        return jdbcTemplate.queryForObject(sql, answerRowMapper(), answerId);
+    }
+
+    public void delete(int id) {
+        String sql = "delete from answers where answerId=?";
+        jdbcTemplate.update(sql, pstmt -> pstmt.setObject(1, id));
     }
 
     private RowMapper<Answer> answerRowMapper() {
