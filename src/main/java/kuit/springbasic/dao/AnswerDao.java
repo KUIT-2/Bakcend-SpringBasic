@@ -26,6 +26,7 @@ public class AnswerDao {
             ps.setString(1, answer.getWriter());
             ps.setString(2, answer.getContents());
             ps.setDate(3, answer.getCreatedDate());
+            ps.setLong(4, answer.getQuestionId());
             return ps;
         }, keyHolder);
         answer.setAnswerId(keyHolder.getKey().longValue());

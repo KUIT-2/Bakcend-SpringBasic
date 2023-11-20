@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,9 +95,14 @@ public class AnswerController {
     public Answer addAnswerV3(@ModelAttribute Answer answer) throws SQLException {
         log.info("AnswerController.addAnswerV3");
 
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        answer.setCreatedDate(date);
+
         Answer savedAnswer = answerDao.insert(answer);
 
         Question question = questionDao.findByQuestionId(answer.getQuestionId());
+
         question.increaseCountOfAnswer();
         questionDao.updateCountOfAnswer(question);
 

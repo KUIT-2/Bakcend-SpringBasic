@@ -38,4 +38,17 @@ public class QnAController {
         return "/qna/show";
     }
 
+    @RequestMapping("/delete")
+    public String deleteQuestion(@RequestParam Long questionId) throws SQLException{
+        log.info("QuestionController.delete");
+
+        Question question = questionDao.findByQuestionId(questionId);
+        if (question != null) {
+            questionDao.delete(questionId.intValue());
+        }
+
+        return "redirect:/";
+
+    }
+
 }
