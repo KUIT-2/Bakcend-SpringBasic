@@ -109,4 +109,20 @@ public class AnswerController {
         return savedAnswer;
     }
 
+    @PostMapping("/api/qna/deleteAnswer")
+    public String deleteAnswer(@RequestParam Long answerId) throws SQLException {
+        log.info("AnswerController.deleteAnswer");
+
+        Answer deletedAnswer = answerDao.findByAnswerId(answerId);
+        Question question = questionDao.findByQuestionId(deletedAnswer.getQuestionId());
+
+        if (deletedAnswer != null) {
+            answerDao.delete(answerId.intValue());
+            question.decreaseCountOfAnswer();
+            questionDao.updateCountOfAnswer(question);
+        }
+
+        return "redirect:/qna/show?questionId=" + question.getQuestionId();
+    }
+
 }

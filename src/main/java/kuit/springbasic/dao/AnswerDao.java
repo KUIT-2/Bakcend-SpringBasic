@@ -38,6 +38,16 @@ public class AnswerDao {
         return jdbcTemplate.query(sql, answerRowMapper(), questionId);
     }
 
+    public Answer findByAnswerId(Long answerId) {
+        String sql = "select * from answers where answerId=?";
+        return jdbcTemplate.queryForObject(sql, answerRowMapper(), answerId);
+    }
+
+    public void delete(int id) {
+        String sql = "delete from answers where answerId=?";
+        jdbcTemplate.update(sql, pstmt -> pstmt.setObject(1, id));
+    }
+
     private RowMapper<Answer> answerRowMapper() {
         return (rs, rowNum) -> {
             Answer answer = new Answer();
