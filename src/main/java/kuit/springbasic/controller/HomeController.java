@@ -35,7 +35,7 @@ public class HomeController {
 
     @RequestMapping("/homeV2")
 //    @RequestMapping("/")
-    public ModelAndView showHomeV2() {
+    public ModelAndView showHomeV2() { //request와 response를 사용하지 않기때문에 생략 가능
         log.info("HomeController.homeV2");
 
         ModelAndView modelAndView = new ModelAndView("home");
